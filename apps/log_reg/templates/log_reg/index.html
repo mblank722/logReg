@@ -4,7 +4,53 @@
     <meta charset="utf-8">
     <title>Login/Registration</title>
   </head>
+
   <body>
-<h1>here I am at login reg!</h1>
+      <h1>Survey Form</h1>
+
+      <div id=mysurvey>
+
+          <form action="/eval" method="POST">
+            {% csrf_token %}
+              <p>
+                  <label>
+                      Name:&nbsp
+                      <label>
+                      <input placeholder="Name" type="text" name="name">
+                  </label>
+              </p>
+              <p>a
+                  <label>Dojo Location:&nbsp
+                      <select name="location">
+                          <option value="San Jose">San Jose</option>
+                          <option value="Kyoto">Kyoto</option>
+                          <option value="Podunk">Podunk</option>
+                         	<option value="Seattle">Seattle</option>
+                         	<option value="Washington DC">Washington DC</option>
+                         	<option value="Oakland">Oakland</option>
+                      </select>
+                  </label>
+              </p>
+              <p>
+                  <label>Favorite Language:&nbsp
+                      <select name="language">
+                          <option value="Python">Python</option>
+                          <option value="Senagalese">Sengalese</option>
+                         	<option value="Cobol">Cobol</option>
+                         	<option value="French">French</option>
+                         	<option value="JS">JS</option>
+                      </select>
+                  </label>
+              </p>
+              <LABEL>Comment</LABEL>
+  	            <p><textarea placeholder ="comment2" rows="4" cols="50" name="comment">
+  	            </textarea>
+              </p>
+              <p>
+                      <input type="submit" value="Submit">
+              </p>
+          </form>
+      </div>
   </body>
-</html>
+
+  </html>
