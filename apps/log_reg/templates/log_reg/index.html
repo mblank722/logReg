@@ -2,55 +2,66 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Login/Registration</title>
+    <title>Login/Registration Home</title>
   </head>
 
   <body>
-      <h1>Survey Form</h1>
+      <h1>Register</h1>
 
-      <div id=mysurvey>
-
+      <div id=register>
           <form action="/eval" method="POST">
             {% csrf_token %}
               <p>
-                  <label></label>
-                      Name:&nbsp
-                      <label>
-                      <input placeholder="Name" type="text" name="name">
-                  </label>
+                <label for 'first_name'>First Name</label>
+                <input placeholder='First Name' type='text' name='first_name'>
               </p>
               <p>
-                  <label>Dojo Location:&nbsp
-                      <select name="location">
-                          <option value="San Jose">San Jose</option>
-                          <option value="Kyoto">Kyoto</option>
-                          <option value="Podunk">Podunk</option>
-                         	<option value="Seattle">Seattle</option>
-                         	<option value="Washington DC">Washington DC</option>
-                         	<option value="Oakland">Oakland</option>
-                      </select>
-                  </label
+                <label for 'last_name'>Last Name</label>
+                <input placeholder='Last Name' type='text' name='last_name'>
+              </p>
+
+              <p>
+                <label for 'email'>Email</label>
+                <input placeholder='Email' type='text' name='email'>
+              </p>
+
+              <p>
+                <label for 'Password'>Password</label>
+                <input placeholder='Password' type='text' name='password'>
               </p>
               <p>
-                  <label>Favorite Language:&nbsp
-                      <select name="language">
-                          <option value="Python">Python</option>
-                          <option value="Senagalese">Sengalese</option>
-                         	<option value="Cobol">Cobol</option>
-                         	<option value="French">French</option>
-                         	<option value="JS">JS</option>
-                      </select>
-                  </label>
+                <label for 'confirm'>Reenter PW</label>
+                <input placeholder='' type='text' name='confirm'>
               </p>
-              <LABEL>Comment</LABEL>
-  	            <p><textarea placeholder ="comment2" rows="4" cols="50" name="comment">
-  	            </textarea>
-              </p>
+
               <p>
-                      <input type="submit" value="Submit">
+                      <input type="submit" value="Register">
               </p>
           </form>
-      </div>
+        </div>
+
+        <h1>Login</h1>
+
+        <div id=loginr>
+
+        <form action="/eval" method="POST">
+          {% csrf_token %}
+
+            <p>
+              <label for 'email'>Email</label>
+              <input placeholder='Email' type='text' name='email'>
+            </p>
+
+            <p>
+              <label for 'Password'>Password</label>
+              <input placeholder='Password' type='text' name='password'>
+            </p>
+
+            <p>
+                    <input type="submit" value="Login">
+            </p>
+        </form>
+    </div>
   </body>
 
   </html>
