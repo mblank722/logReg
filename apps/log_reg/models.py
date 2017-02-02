@@ -15,7 +15,7 @@ class UserManager(models.Manager):
         print 'Email:',user.email
         print 'PW:',user.password
         print "ID:",user.id
-        print "*"*50
+        print "*"*5
         # print "Running a login function!"
         # print "If successful login occurs, maybe return {'theuser':user} where user is a user object?"
         # print "If unsuccessful, maybe return { 'errors':['Login unsuccessful'] }"
