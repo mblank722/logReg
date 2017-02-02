@@ -9,10 +9,8 @@
 
 
       <div id=register>
-
         <h1>Register</h1>
-
-          <form action="/eval" method="POST">
+          <form action="/register" method="POST">
             {% csrf_token %}
               <p>
                 <label for 'first_name'>First Name</label>
@@ -29,7 +27,7 @@
               </p>
 
               <p>
-                <label for 'Password'>Password</label>
+                <label for 'password'>Password</label>
                 <input placeholder='Password' type='text' name='password'>
               </p>
               <p>
@@ -38,7 +36,7 @@
               </p>
 
               <p>
-                      <input type="submit" value="Register">
+                <input type="submit" value="Register">
               </p>
           </form>
         </div>
@@ -47,7 +45,7 @@
 
         <div id=loginr>
 
-        <form action="/eval" method="POST">
+        <form action="/login" method="POST">
           {% csrf_token %}
 
             <p>
@@ -61,7 +59,7 @@
             </p>
 
             <p>
-                    <input type="submit" value="Login">
+                <input type="submit" value="Login">
             </p>
         </form>
     </div>
