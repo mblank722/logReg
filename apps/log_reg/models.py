@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+
 from django.db import models
 import re
 
@@ -44,11 +45,11 @@ class UserManager(models.Manager):
         and (postData['password'] != postData['confirm']):
             errors.append("Password and Password Confirmation must match, please reenter.")
         if len(errors) is not 0:
-            return (False, errors)
+            return ({'insertIsValid' : False, 'errors' : errors})
         else:
             user = User.objects.create(first_name=postData['first_name'],last_name=postData['last_name'],email =postData['email'], password=postData['password'])
             user.save()
-        return (True, errors)
+        return ({'insertIsValid':True, 'id':'id'})
         # User.objects.get(id=1)
         # print 'in register method -  fn:'(u.first_name)
 

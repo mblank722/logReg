@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from models import User
+
 
 
 # Create your views here.
@@ -13,18 +15,36 @@ def success(request):
 
 def register(request):
     if request.method == "POST":
-        User.objects.register(request.POST)
-        print "*"*50
-        print "view: Register Method"
-        print "req method:", request.method
-        print "*"*50
-        print 'fn:', request.POST['first_name'],\
-        'ln:', request.POST['last_name'],\
-        'email:', request.POST['email'],\
-        'pw:', request.POST['password'],\
-        'conf:', request.POST['confirm']
-        print "*"*50
-        return redirect("/success")
+        register = User.objects.register(request.POST)
+        if register['insertIsValid']:
+            print "*"*50
+            print "view: Register Method"
+            print "req method:", request.method
+            print "*"*50
+            print 'fn:', request.POST['first_name'],\
+            'ln:', request.POST['last_name'],\
+            'email:', request.POST['email'],\
+            'pw:', request.POST['password'],\
+            'conf:', request.POST['confirm']
+            print "*"*50
+            request.session[register['id']]
+            return redirect("/success")
+        else:
+            for error in register['errors']:
+                messages.error(request, error)
+                
+            print "*"*50
+            print "view: Register Method"
+            print "req method:", request.method
+            print "*"*50
+            print 'fn:', request.POST['first_name'],\
+            'ln:', request.POST['last_name'],\
+            'email:', request.POST['email'],\
+            'pw:', request.POST['password'],\
+            'conf:', request.POST['confirm']
+            print "*"*50
+
+
 
     return redirect("/")
 
@@ -39,6 +59,5 @@ def login(request):
         print 'ID:', request.POST['confirm']
         print 'Email:',  request.POST['email']
         print 'PW:' , request.POST['password']
-
         return redirect("/success")
     return redirect("/")
