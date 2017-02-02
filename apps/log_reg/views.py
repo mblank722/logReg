@@ -35,7 +35,7 @@ def login(request):
         print "login"
         print request.POST
         print request.method
-        print "*"*5
+        print "*"*50
         print 'ID:', request.POST['confirm']
         print 'Email:',  request.POST['email']
         print 'PW:' , request.POST['password']
