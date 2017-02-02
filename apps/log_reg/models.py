@@ -1,7 +1,9 @@
 from __future__ import unicode_literals
 
 from django.db import models
+import re
 
+EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9\.\+_-]+@[a-zA-Z0-9\._-]+\.[a-zA-Z]*$')
 # Create your models here.
  #No methods in our new manager should ever catch the whole request object with a parameter!!! (just parts, like request.POST)
 class UserManager(models.Manager):
@@ -24,7 +26,29 @@ class UserManager(models.Manager):
         # print "Register a user here"
         # print "If successful, maybe return {'theuser':user} where user is a user object?"
         # print "If unsuccessful do something like this? return {'errors':['User first name to short', 'Last name too short'] "
-        User.objects.create(first_name=postData['first_name'],last_name=postData['last_name'],email =postData['email'], password=postData['password'])
+
+
+        # validate User date,:
+        #if pass edits: insert users, return (True, user_id)
+        #else: return (False, errors[])
+        errors = []
+        if len(postData['first_name'])== 0:
+            errors.append("First Name is required, please enter.")
+        if len(postData['last_name'])== 0:
+            errors.append("Last Name is required, please enter.")
+        if len(postData['email'])<= 5 or EMAIL_REGEX.match (postData['email']):
+            errors.append("Valid Email required, please enter valid email")
+        if len(postData['password']) < 8:
+            errors.append("Password is required and must contain at least 8 characters , please enter.")
+        if (len(postData['password']) < 8) \
+        and (postData['password'] != postData['confirm']):
+            errors.append("Password and Password Confirmation must match, please reenter.")
+        if len(errors) is not 0:
+            return (False, errors)
+        else:
+            user = User.objects.create(first_name=postData['first_name'],last_name=postData['last_name'],email =postData['email'], password=postData['password'])
+            user.save()
+        return (True, errors)
         # User.objects.get(id=1)
         # print 'in register method -  fn:'(u.first_name)
 

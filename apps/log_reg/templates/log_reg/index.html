@@ -6,6 +6,9 @@
   </head>
 
   <body>
+    {% for error in request.session.errors %}
+      <p>{{error}}</p>
+    {% endfor %}
 
 
       <div id=register>
