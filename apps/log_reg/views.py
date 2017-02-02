@@ -13,12 +13,11 @@ def success(request):
 
 def register(request):
     if request.method == "POST":
+        User.objects.register(request.POST)
         print "*"*50
-        print "register"
-
+        print "view: Register Method"
         print "req method:", request.method
         print "*"*50
-        User.objects.register(request.POST)
         print 'fn:', request.POST['first_name'],\
         'ln:', request.POST['last_name'],\
         'email:', request.POST['email'],\
@@ -31,10 +30,15 @@ def register(request):
 
 def login(request):
     if request.method == "POST":
+        User.objects.login(request.POST)
         print "*"*50
         print "login"
         print request.POST
         print request.method
         print "*"*50
+        print 'ID:', request.POST['confirm']
+        print 'Email:',  request.POST['email']
+        print 'PW:' , request.POST['password']
+
         return redirect("/success")
     return redirect("/")

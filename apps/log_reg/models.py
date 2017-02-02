@@ -6,17 +6,27 @@ from django.db import models
  #No methods in our new manager should ever catch the whole request object with a parameter!!! (just parts, like request.POST)
 class UserManager(models.Manager):
     def login(self, postData):
-        print "Running a login function!"
-        print "If successful login occurs, maybe return {'theuser':user} where user is a user object?"
-        print "If unsuccessful, maybe return { 'errors':['Login unsuccessful'] }"
+
+        # add vaidation here:
+
+        user = User.objects.get(email=postData['email'])
+        print "*"*50
+        print "model: Login Method"
+        print 'Email:',user.email
+        print 'PW:',user.password
+        print "ID:",user.id
+        print "*"*50
+        # print "Running a login function!"
+        # print "If successful login occurs, maybe return {'theuser':user} where user is a user object?"
+        # print "If unsuccessful, maybe return { 'errors':['Login unsuccessful'] }"
 
     def register(self, postData):
         # print "Register a user here"
         # print "If successful, maybe return {'theuser':user} where user is a user object?"
         # print "If unsuccessful do something like this? return {'errors':['User first name to short', 'Last name too short'] "
         User.objects.create(first_name=postData['first_name'],last_name=postData['last_name'],email =postData['email'], password=postData['password'])
-        u = User.objects.get(id=1)
-        print 'in register method -  fn:', (u.first_name)
+        # User.objects.get(id=1)
+        # print 'in register method -  fn:'(u.first_name)
 
 class User(models.Model):
     first_name = models.CharField(max_length=30)
