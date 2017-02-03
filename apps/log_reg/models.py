@@ -19,6 +19,7 @@ class UserManager(models.Manager):
         print 'PW:',user.password
         print "ID:",user.id
         print "*"*5
+        return ({'insertIsValid':True, 'id':user.id,' email':user.email, 'password':user.password })
         # print "Running a login function!"
         # print "If successful login occurs, maybe return {'theuser':user} where user is a user object?"
         # print "If unsuccessful, maybe return { 'errors':['Login unsuccessful'] }"
@@ -46,19 +47,20 @@ class UserManager(models.Manager):
         if (len(postData['password']) < 8) \
         and (postData['password'] != postData['confirm']):
             errors.append("Password and Password Confirmation must match, please reenter.")
+
         if len(errors) is not 0:
             return ({'insertIsValid' : False, 'errors' : errors})
         else:
             user = User.objects.create(first_name=postData['first_name'],last_name=postData['last_name'],email =postData['email'], password=postData['password'])
             user.save()
-        return ({'insertIsValid':True, 'id':user.id})
+        return ({'insertIsValid':True, 'id':user.id })
         # User.objects.get(id=1)
         # print 'in register method -  fn:'(u.first_name)
 
 class User(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
-    email = models.EmailField()
+    email = models.EmailField(unique=False)
     password = models.CharField(max_length=30)
     birth_day = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
