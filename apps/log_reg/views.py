@@ -18,7 +18,7 @@ def register(request):
         register = User.objects.register(request.POST)
         if register['insertIsValid']:
             print "*"*50
-            print "view: Register Method"
+            print "view: Register Method - Success"
             print "req method:", request.method
             print "*"*50
             print 'fn:', request.POST['first_name'],\
@@ -27,14 +27,16 @@ def register(request):
             'pw:', request.POST['password'],\
             'conf:', request.POST['confirm']
             print "*"*50
-            request.session[register['id']]
-            return redirect("/success")
+            print "register:", register
+            request.session['id']=register['id']
+            request.session['first_name']=request.POST['first_name']
+            print "request.session:",  request.session['id']
+            return render (request, 'log_reg/success.html')
         else:
             for error in register['errors']:
                 messages.error(request, error)
-                
             print "*"*50
-            print "view: Register Method"
+            print "view: Register Method - Errors"
             print "req method:", request.method
             print "*"*50
             print 'fn:', request.POST['first_name'],\
@@ -44,9 +46,8 @@ def register(request):
             'conf:', request.POST['confirm']
             print "*"*50
 
-
-
     return redirect("/")
+
 
 def login(request):
     if request.method == "POST":

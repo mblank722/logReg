@@ -37,8 +37,10 @@ class UserManager(models.Manager):
             errors.append("First Name is required, please enter.")
         if len(postData['last_name'])== 0:
             errors.append("Last Name is required, please enter.")
-        if len(postData['email'])<= 5 or EMAIL_REGEX.match (postData['email']):
+
+        if len(postData['email'])<= 5 or not EMAIL_REGEX.match (postData['email']):
             errors.append("Valid Email required, please enter valid email")
+
         if len(postData['password']) < 8:
             errors.append("Password is required and must contain at least 8 characters , please enter.")
         if (len(postData['password']) < 8) \
@@ -49,7 +51,7 @@ class UserManager(models.Manager):
         else:
             user = User.objects.create(first_name=postData['first_name'],last_name=postData['last_name'],email =postData['email'], password=postData['password'])
             user.save()
-        return ({'insertIsValid':True, 'id':'id'})
+        return ({'insertIsValid':True, 'id':'xxxx'})
         # User.objects.get(id=1)
         # print 'in register method -  fn:'(u.first_name)
 
