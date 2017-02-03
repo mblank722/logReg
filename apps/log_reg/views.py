@@ -49,7 +49,7 @@ def register(request):
 def login(request):
     if request.method == "POST":
         login = User.objects.login(request.POST)
-        if login['logintIsValid']:
+        if login['loginIsValid']:
             print "*"*50
             print "view: Login Method - Success"
             print "views:login:", login

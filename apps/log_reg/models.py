@@ -11,16 +11,30 @@ class UserManager(models.Manager):
     def login(self, postData):
         # user = User.objects.get(id=postData['id'])
         # user = User.objects.filter(id=postData['id'])[0
-        print "postData['id']", postData['id']
-        user = User.objects.get(id=2)
-        hashedPW = b"user.password"
+        #print "postData['id']", postData['id']
+        print 'Postdata:', postData
+        password = postData['password']
+        inHashedPW = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+        # db call: slecet * from user where email= user_input_email
+        user = User.objects.get(email=postData['email'])
+
+        #hashedPW = b"user.password"
         print "*"*50
         print "model: Login Method"
         print 'Email:',user.email
-        print 'HashedPW:',user.password
+        print 'dbHashedPW:',user.password
+        print 'inHashedPW:', user.password
+        pwGood = bcrypt.checkpw(password.encode(),user.password.encode())
+        print  "*"*50
         print "ID:",user.id
-        print "*"*5
-        return ({'loginIsValid':True, 'id':user.id,' email':user.email, 'password':user.password })
+        print "*"*50
+        pwGood = bcrypt.checkpw(password.encode(),user.password.encode())
+        if pwGood:
+            return ({'loginIsValid':True, 'id':user.id,' email':user.email,\
+             'password':user.password, 'operation': 'logged in' })
+        else:
+            return ({'loginIsValid' : False, 'errors' : errors})
+
         # print "Running a login function!"
         # print "If successful login occurs, maybe return {'theuser':user} where user is a user object?"
         # print "If unsuccessful, maybe return { 'errors':['Login unsuccessful'] }"
@@ -50,8 +64,18 @@ class UserManager(models.Manager):
         and (postData['password'] != postData['confirm']):
             errors.append("Password and Password Confirmation must match, please reenter.")
 
-        if len(errors) is not 0:
-            return ({'insertIsValid' : False, 'errors' : errors})
+        if errors:
+            pass
+        else:
+            # db call: slecet * from user where email= user_input_email
+            user = ''
+            user = User.objects.get(email=postData['email'])
+            if user:
+                errors.append("This email already exists")
+
+
+        if errors:
+            pass
         else:
             password = postData['password']
             hashedPW = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
@@ -66,8 +90,11 @@ class UserManager(models.Manager):
             # hashed2 = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
             # print 'hashed2:', hashed2
             # print bcrypt.hashpw(password.encode('utf-8'),hashed)
-
-        return ({'registerIsValid':True, 'id':user.id })
+        if errors:
+            return ({'registerIsValid' : False, 'errors' : errors})
+        else:
+            return ({'registerIsValid':True, 'id':user.id, \
+            'operation': 'registered and are now logged in' })
         # User.objects.get(id=1)
         # print 'in register method -  fn:'(u.first_name)
 
