@@ -10,8 +10,9 @@ EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9\.\+_-]+@[a-zA-Z0-9\._-]+\.[a-zA-Z]*$')
 class UserManager(models.Manager):
     def login(self, postData):
         # user = User.objects.get(id=postData['id'])
-        user = User.objects.filter(id=postData['id'])[0]
-
+        # user = User.objects.filter(id=postData['id'])[0
+        print "postData['id']", postData['id']
+        user = User.objects.get(id=2)
         hashedPW = b"user.password"
         print "*"*50
         print "model: Login Method"
@@ -19,7 +20,7 @@ class UserManager(models.Manager):
         print 'HashedPW:',user.password
         print "ID:",user.id
         print "*"*5
-        return ({'insertIsValid':True, 'id':user.id,' email':user.email, 'password':user.password })
+        return ({'loginIsValid':True, 'id':user.id,' email':user.email, 'password':user.password })
         # print "Running a login function!"
         # print "If successful login occurs, maybe return {'theuser':user} where user is a user object?"
         # print "If unsuccessful, maybe return { 'errors':['Login unsuccessful'] }"
@@ -66,7 +67,7 @@ class UserManager(models.Manager):
             # print 'hashed2:', hashed2
             # print bcrypt.hashpw(password.encode('utf-8'),hashed)
 
-        return ({'insertIsValid':True, 'id':user.id })
+        return ({'registerIsValid':True, 'id':user.id })
         # User.objects.get(id=1)
         # print 'in register method -  fn:'(u.first_name)
 

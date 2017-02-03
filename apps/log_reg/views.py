@@ -14,7 +14,7 @@ def success(request):
 def register(request):
     if request.method == "POST":
         register = User.objects.register(request.POST)
-        if register['insertIsValid']:
+        if register['registerIsValid']:
             print "*"*50
             print "view: Register Method - Success"
             print "req method:", request.method
@@ -49,7 +49,7 @@ def register(request):
 def login(request):
     if request.method == "POST":
         login = User.objects.login(request.POST)
-        if login['insertIsValid']:
+        if login['logintIsValid']:
             print "*"*50
             print "view: Login Method - Success"
             print "views:login:", login
@@ -57,7 +57,7 @@ def login(request):
             print "*"*50
             return render (request, 'log_reg/success.html')
         else:
-            for error in register['errors']:
+            for error in login['errors']:
                 messages.error(request, error)
             print "*"*50
             print "view: Register Method - Errors"
