@@ -54,7 +54,7 @@ def login(request):
             print "view: Login Method - Success"
             print "req method:", request.method
             print "*"*50
-            print 'id:' , request.session['id'], \
+            print 'id:' , login['id'], \
             'email:', request.POST['email'], \
             'pw:', request.POST['password']
 
