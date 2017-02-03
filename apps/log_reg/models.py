@@ -51,7 +51,7 @@ class UserManager(models.Manager):
         else:
             user = User.objects.create(first_name=postData['first_name'],last_name=postData['last_name'],email =postData['email'], password=postData['password'])
             user.save()
-        return ({'insertIsValid':True, 'id':'xxxx'})
+        return ({'insertIsValid':True, 'id':user.id})
         # User.objects.get(id=1)
         # print 'in register method -  fn:'(u.first_name)
 
