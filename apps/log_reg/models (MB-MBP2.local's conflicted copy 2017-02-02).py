@@ -52,6 +52,13 @@ class UserManager(models.Manager):
         if len(errors) is not 0:
             return ({'insertIsValid' : False, 'errors' : errors})
         else:
+            password = "super secret password"
+            hashed = bcrypt.hashpw(password, bcrypt.gensalt())
+            print hashed
+            print len(hashed)
+            hashed2 = bcrypt.hashpw(password, bcrypt.gensalt())
+            print hashed2
+            print bcrypt.hashpw(password,hashed)
             user = User.objects.create(first_name=postData['first_name'],last_name=postData['last_name'],email =postData['email'], password=postData['password'])
             user.save()
         return ({'insertIsValid':True, 'id':user.id })
