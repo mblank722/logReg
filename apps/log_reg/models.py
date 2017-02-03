@@ -9,15 +9,14 @@ EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9\.\+_-]+@[a-zA-Z0-9\._-]+\.[a-zA-Z]*$')
  #No methods in our new manager should ever catch the whole request object with a parameter!!! (just parts, like request.POST)
 class UserManager(models.Manager):
     def login(self, postData):
+        # user = User.objects.get(id=postData['id'])
+        user = User.objects.filter(id=postData['id'])[0]
 
-        # add vaidation here:
-
-        user = User.objects.get(email=postData['email'])
-        password = b"user.password"
+        hashedPW = b"user.password"
         print "*"*50
         print "model: Login Method"
         print 'Email:',user.email
-        print 'PW:',user.password
+        print 'HashedPW:',user.password
         print "ID:",user.id
         print "*"*5
         return ({'insertIsValid':True, 'id':user.id,' email':user.email, 'password':user.password })
@@ -40,7 +39,8 @@ class UserManager(models.Manager):
         if len(postData['last_name'])== 0:
             errors.append("Last Name is required, please enter.")
 
-        if len(postData['email'])<= 5 or not EMAIL_REGEX.match (postData['email']):
+        if len(postData['email']) <= 5 \
+        or not EMAIL_REGEX.match (postData['email']):
             errors.append("Valid Email required, please enter valid email")
 
         if len(postData['password']) < 8:
@@ -53,13 +53,13 @@ class UserManager(models.Manager):
             return ({'insertIsValid' : False, 'errors' : errors})
         else:
             password = postData['password']
-            hashPW = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-            print 'hashed:', hashedPW
+            hashedPW = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+            print 'hashedPW:', hashedPW
             user = User.objects.create(
                 first_name=postData['first_name'],
                 last_name=postData['last_name'],
                 email =postData['email'],
-                password=postData['hashedPW'])
+                password=hashedPW)
             user.save()
             # print 'hashed length:',len(hashed)
             # hashed2 = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
@@ -74,7 +74,7 @@ class User(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     email = models.EmailField(unique=False)
-    password = models.CharField(max_length=30)
+    password = models.CharField(max_length=100)
     birth_day = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

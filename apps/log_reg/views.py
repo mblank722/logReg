@@ -52,16 +52,9 @@ def login(request):
         if login['insertIsValid']:
             print "*"*50
             print "view: Login Method - Success"
-            print "req method:", request.method
-            print "*"*50
-            print 'id:' , login['id'], \
-            'email:', request.POST['email'], \
-            'pw:', request.POST['password']
-
-            print "*"*50
-            print "login:", login
+            print "views:login:", login
             request.session['id']=login['id']
-            print "request.session:",  request.session['id']
+            print "*"*50
             return render (request, 'log_reg/success.html')
         else:
             for error in register['errors']:
@@ -70,12 +63,7 @@ def login(request):
             print "view: Register Method - Errors"
             print "req method:", request.method
             print "*"*50
-            print 'fn:', request.POST['first_name'],\
-            'ln:', request.POST['last_name'],\
-            'email:', request.POST['email'],\
-            'pw:', request.POST['password'],\
-            'conf:', request.POST['confirm']
-            print "*"*50
+
     #     print "*"*50
     #     print "login"
     #     print request.POST
@@ -85,4 +73,4 @@ def login(request):
     #     print 'Email:',  request.POST['email']
     #     print 'PW:' , request.POST['password']
     #     return redirect("/success")
-    # return redirect("/")
+    return redirect("/")
