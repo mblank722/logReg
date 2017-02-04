@@ -21,7 +21,8 @@ class UserManager(models.Manager):
         # user = User.objects.filter(id=postData['id'])[0
         #print "postData['id']", postData['id']
         # print 'Postdata:', postData
-        # password = postData['password']
+        else:
+            password = postData['password']
         # inHashedPW = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
         # db call: select * from user where email= user_input_email
@@ -56,8 +57,9 @@ class UserManager(models.Manager):
         else:
             pwGood = bcrypt.checkpw(password.encode(),user.password.encode())
             if pwGood:
-                return ({'loginIsValid':True, 'id':user.id,' email':user.email,'password':user.password, 'operation': 'logged in' })
+                return ({'loginIsValid': True, 'id':user.id,' email':user.email,'password':user.password, 'operation': 'logged in' })
             else:
+                errors.append("Incorrect Password")
                 return ({'loginIsValid' : False, 'errors' : errors})
 
         # print "Running a login function!"
