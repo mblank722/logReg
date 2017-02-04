@@ -129,8 +129,7 @@ class UserManager(models.Manager):
         if errors:
             return ({'registerIsValid' : False, 'errors' : errors})
         else:
-            return ({'registerIsValid':True, 'id':user.id, \
-            'operation': 'registered and are now logged in' })
+            return ({'registerIsValid':True, 'id':user.id, 'operation': 'registered and are now logged in'})
         # User.objects.get(id=1)
         # print 'in register method -  fn:'(u.first_name)
 

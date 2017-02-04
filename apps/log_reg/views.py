@@ -28,6 +28,7 @@ def register(request):
             print "register:", register
             request.session['id']=register['id']
             request.session['first_name']=request.POST['first_name']
+            request.session['opertion']=request.POST['operation']
             print "request.session:",  request.session['id']
             return render (request, 'log_reg/success.html')
         else:
@@ -57,6 +58,7 @@ def login(request):
             print "views:login:", login
             request.session['id']=login['id']
             print "*"*50
+            request.session['operation'] = request.POST['operation']
             return render (request, 'log_reg/success.html')
         else:
             for error in login['errors']:
