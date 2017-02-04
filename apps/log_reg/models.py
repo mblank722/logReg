@@ -56,8 +56,7 @@ class UserManager(models.Manager):
         else:
             pwGood = bcrypt.checkpw(password.encode(),user.password.encode())
             if pwGood:
-                return ({'loginIsValid':True, 'id':user.id,' email':user.email,\
-                 'password':user.password, 'operation': 'logged in' })
+                return ({'loginIsValid':True, 'id':user.id,' email':user.email,'password':user.password, 'operation': 'logged in' })
             else:
                 return ({'loginIsValid' : False, 'errors' : errors})
 
