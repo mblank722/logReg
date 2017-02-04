@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from django.core.exceptions import ObjectDoesNotExist
 
 
 from django.db import models
@@ -9,31 +10,56 @@ EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9\.\+_-]+@[a-zA-Z0-9\._-]+\.[a-zA-Z]*$')
  #No methods in our new manager should ever catch the whole request object with a parameter!!! (just parts, like request.POST)
 class UserManager(models.Manager):
     def login(self, postData):
+        errors = []
+        if len(postData['email']) <= 5 \
+        or not EMAIL_REGEX.match (postData['email']):
+            errors.append("Valid Email required, please enter valid email")
+
+        if len(postData['password']) < 8:
+            errors.append("Password is required and must contain at least 8 characters , please enter.")
         # user = User.objects.get(id=postData['id'])
         # user = User.objects.filter(id=postData['id'])[0
         #print "postData['id']", postData['id']
-        print 'Postdata:', postData
-        password = postData['password']
-        inHashedPW = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
-        # db call: slecet * from user where email= user_input_email
-        user = User.objects.get(email=postData['email'])
+        # print 'Postdata:', postData
+        # password = postData['password']
+        # inHashedPW = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+
+        # db call: select * from user where email= user_input_email
+
+        if errors:
+            pass
+        else:
+            if User.objects.filter(email=postData['email']).exists():
+                user = User.objects.get(email=postData['email'])
+            else:
+                errors.append("This email does not exist")
+            # if SomeModel.objects.filter(foo='bar').exists():
+                # x = SomeModel.objects.get(foo='bar')
+            # if user:
+            #   errors.append("This email already exists")
+
+
 
         #hashedPW = b"user.password"
-        print "*"*50
-        print "model: Login Method"
-        print 'Email:',user.email
-        print 'dbHashedPW:',user.password
-        print 'inHashedPW:', user.password
-        pwGood = bcrypt.checkpw(password.encode(),user.password.encode())
-        print  "*"*50
-        print "ID:",user.id
-        print "*"*50
-        pwGood = bcrypt.checkpw(password.encode(),user.password.encode())
-        if pwGood:
-            return ({'loginIsValid':True, 'id':user.id,' email':user.email,\
-             'password':user.password, 'operation': 'logged in' })
+        # print "*"*50
+        # print "model: Login Method"
+        # print 'Email:',user.email
+        # print 'dbHashedPW:',user.password
+        # print 'inHashedPW:', user.password
+        # pwGood = bcrypt.checkpw(password.encode(),user.password.encode())
+        # print  "*"*50
+        # print "ID:",user.id
+        # print "*"*50
+
+        if errors:
+            pass
         else:
-            return ({'loginIsValid' : False, 'errors' : errors})
+            pwGood = bcrypt.checkpw(password.encode(),user.password.encode())
+            if pwGood:
+                return ({'loginIsValid':True, 'id':user.id,' email':user.email,\
+                 'password':user.password, 'operation': 'logged in' })
+            else:
+                return ({'loginIsValid' : False, 'errors' : errors})
 
         # print "Running a login function!"
         # print "If successful login occurs, maybe return {'theuser':user} where user is a user object?"
@@ -66,12 +92,21 @@ class UserManager(models.Manager):
 
         if errors:
             pass
+
+            # db call: filter for 0 or more :select * from user where email= user_input_email
+            # error if user exists
+
+            # user = ''
+            # user = User.objects.get(email=postData['email'])
         else:
-            # db call: slecet * from user where email= user_input_email
-            user = ''
-            user = User.objects.get(email=postData['email'])
-            if user:
+            if User.objects.filter(email=postData['email']).exists():
                 errors.append("This email already exists")
+
+            # if SomeModel.objects.filter(foo='bar').exists():
+                # x = SomeModel.objects.get(foo='bar')
+            # if user:
+            #   errors.append("This email already exists")
+
 
 
         if errors:

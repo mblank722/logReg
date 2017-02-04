@@ -43,6 +43,7 @@ def register(request):
             'pw:', request.POST['password'],\
             'conf:', request.POST['confirm']
             print "*"*50
+
     return redirect("/")
 
 
