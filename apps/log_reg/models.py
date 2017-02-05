@@ -1,4 +1,4 @@
-from __future__ import unicode_lit
+from __future__ import unicode_liter
 from django.core.exceptions import ObjectDoesNotExist
 
 
