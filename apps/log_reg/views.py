@@ -9,7 +9,7 @@ def index(request):
 def success(request):
     return render (request, 'log_reg/success.html')
 
-def register(request)
+def register(request):
     if request.method == "POST":
         register = User.objects.register(request.POST)
         if register['registerIsValid']:
