@@ -7,74 +7,30 @@ def index(request):
     return render (request, 'log_reg/index.html')
 
 def success(request):
-
     return render (request, 'log_reg/success.html')
-
 
 def register(request):
     if request.method == "POST":
         register = User.objects.register(request.POST)
         if register['registerIsValid']:
-            print "*"*50
-            print "view: Register Method - Success"
-            print "req method:", request.method
-            print "*"*50
-            print 'fn:', request.POST['first_name'],\
-            'ln:', request.POST['last_name'],\
-            'email:', request.POST['email'],\
-            'pw:', request.POST['password'],\
-            'conf:', request.POST['confirm']
-            print "*"*50
-            print "register:", register
             request.session['id']=register['id']
             request.session['first_name']=request.POST['first_name']
-            request.session['opertion']=request.POST['operation']
-            print "request.session:",  request.session['id']
+            request.session['operation']=register['operation']
             return render (request, 'log_reg/success.html')
         else:
             for error in register['errors']:
                 messages.error(request, error)
-            print "*"*50
-            print "view: Register Method - Errors"
-            print "req method:", request.method
-            print "*"*50
-            print 'fn:', request.POST['first_name'],\
-            'ln:', request.POST['last_name'],\
-            'email:', request.POST['email'],\
-            'pw:', request.POST['password'],\
-            'conf:', request.POST['confirm']
-            print "*"*50
-
     return redirect("/")
 
 
 def login(request):
     if request.method == "POST":
         login = User.objects.login(request.POST)
-        print "request.POST in views.login", request.POST
         if login['loginIsValid']:
-            print "*"*50
-            print "view: Login Method - Success"
-            print "views:login:", login
-            request.session['id']=login['id']
-            print "*"*50
-            request.session['operation'] = request.POST['operation']
+            request.session['operation'] = login['operation']
             return render (request, 'log_reg/success.html')
         else:
             for error in login['errors']:
                 messages.error(request, error)
-            print "*"*50
-            print "view: Register Method - Errors"
-            print "req method:", request.method
-            print "*"*50
 
-    #     print "*"*50
-    #     print "login"
-    #     print request.POST
-    #     print request.method
-    #     print "*"*50
-    #     print 'ID:', request.POST['confirm']
-    #     print 'Email:',  request.POST['email']
-    #     print 'PW:' , request.POST['password']
-    #     return redirect("/success")
     return redirect("/")
