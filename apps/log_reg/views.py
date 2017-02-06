@@ -33,4 +33,4 @@ def login(request):
             for error in login['errors']:
                 messages.error(request, error)
 
-    return redirect("/")
+    return redirect("/"
