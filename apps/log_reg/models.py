@@ -8,7 +8,7 @@ import re, bcrypt
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9\.\+_-]+@[a-zA-Z0-9\._-]+\.[a-zA-Z]*$')
 # Create your models here.
  #No methods in our new manager should ever catch the whole request object with a parameter!!! (just parts, like request.POST)
-class UserManager(models.Manager)
+class UserManager(models.Manager):
     def login(self, postData):
         errors = []
         if len(postData['email']) <= 5 \
